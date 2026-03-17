@@ -1,0 +1,18 @@
+import pino from "pino";
+import { config } from "../config.js";
+
+export const logger = pino({
+  level: config.logLevel,
+  transport: {
+    target: "pino-pretty",
+    options: {
+      colorize: true,
+      translateTime: "SYS:yyyy-mm-dd HH:MM:ss.l",
+      ignore: "pid,hostname",
+    },
+  },
+});
+
+export function createChildLogger(module: string) {
+  return logger.child({ module });
+}
